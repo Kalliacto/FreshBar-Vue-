@@ -22,4 +22,3 @@ export default {
 @import './styles/normalize.css';
 @import './styles/default.css';
 </style>
-<!-- TODO: Сделать стилизацию для якорной ссылки :target -->

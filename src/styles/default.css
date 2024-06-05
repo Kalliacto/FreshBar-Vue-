@@ -138,19 +138,6 @@ fieldset {
     padding: 12px 72px;
 }
 
-.text__gradient {
-    color: var(--black);
-    background-image: linear-gradient(to right, #18efba, #1a9eea, #e02862, #fadd3a);
-    -webkit-text-stroke: transparent 6px;
-    background-clip: text;
-}
-.text__gradient_min {
-    color: var(--black);
-    background-image: linear-gradient(to right, #18efba, #1a9eea, #e02862, #fadd3a);
-    -webkit-text-stroke: transparent 1px;
-    background-clip: text;
-}
-
 @media (max-width: 1240px) {
     body {
         background-image: url(../assets/img/bg/bg-laptop.svg);
