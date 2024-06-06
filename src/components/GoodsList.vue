@@ -3,28 +3,35 @@
         <div class="container goods__container">
             <h2 class="goods__title">Меню</h2>
             <ul class="goods__list">
-                <li class="goods__item">
-                    <article class="goods__card coctail">
-                        <!-- <img class="coctail__img" src="" alt="Коктейль собери сам"> -->
-                        <div class="coctail__content">
-                            <div class="coctail__text">
-                                <h3 class="coctail__title">Собери сам</h3>
-                                <p class="coctail__price text-red">236 p</p>
-                                <p class="coctail__size">300мл</p>
-                            </div>
-                        </div>
-                        <button class="btn coctail__btn coctail__btn_make">Добавить</button>
-                    </article>
-                </li>
+                <goods-card :coctail="customCoctail" :image="customCoctail.image" />
+                <goods-card v-for="coctail in store.goods" :coctail="coctail" :key="coctail.id" />
             </ul>
         </div>
     </section>
 </template>
 
-<script>
-export default {
-    name: 'GoodsList',
+<script setup>
+import GoodsCard from '@/components/GoodsCard.vue';
+import { ref, watchEffect } from 'vue';
+import { useGoodsStore } from '../store/GoodsStore';
+import img from '@/assets/img/make your own.jpg';
+
+const store = useGoodsStore();
+store.getGoods();
+
+const customCoctail = {
+    id: 0,
+    title: 'Собери сам',
+    image: img,
+    price: 236,
+    size: '300мл',
 };
+// https://translated.turbopages.org/proxy_u/en-ru.ru.2b2222bf-666054a0-29dc0a19-74722d776562/https/stackoverflow.com/questions/75182167/vue3-pinia-how-to-make-reactive-a-value-from-the-store
+watchEffect(() => {
+    if (store.goods.length) {
+        ref(store.goods);
+    }
+});
 </script>
 
 <style scoped>
@@ -51,51 +58,6 @@ export default {
     gap: 20px;
 }
 
-.coctail {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    border-radius: 32px;
-    background-color: var(--white);
-    padding: 12px 12px 24px 12px;
-    height: 100%;
-}
-.coctail__img {
-    width: 100%;
-    border-radius: 24px;
-    margin-bottom: 12px;
-}
-.coctail__content {
-    flex-grow: 1;
-    /* margin-bottom: 10px; */
-}
-.coctail__text {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    line-height: 1.1;
-    margin-bottom: 10px;
-    gap: 2px 5px;
-    flex-wrap: wrap;
-}
-.coctail__title {
-    font-weight: 400;
-    font-size: inherit;
-}
-.coctail__price {
-    font-size: inherit;
-    font-weight: 600;
-}
-.coctail__size {
-    font-weight: 600;
-    font-size: 12px;
-    color: var(--main-gray);
-    text-align: end;
-    flex: 0 0 100%;
-}
-.coctail__btn {
-    margin-top: auto;
-}
 @media (max-width: 1240px) {
     .goods__list {
         grid-template-columns: repeat(3, 280px);
@@ -113,27 +75,6 @@ export default {
     .goods__list {
         grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
         gap: 16px;
-    }
-    .coctail {
-        border-radius: 12px;
-        padding: 8px;
-    }
-    .coctail__img {
-        border-radius: 12px;
-        margin-bottom: 8px;
-    }
-    .coctail__content {
-        padding: 0;
-    }
-    .coctail__text {
-        row-gap: 8px;
-        margin-bottom: 16px;
-    }
-    .coctail__title {
-        flex: 0 0 100%;
-    }
-    .coctail__size {
-        flex: auto;
     }
 }
 @media (max-width: 640px) {

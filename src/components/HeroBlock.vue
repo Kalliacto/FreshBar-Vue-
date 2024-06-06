@@ -2,6 +2,7 @@
     <section class="hero">
         <div class="container hero__container">
             <h1 class="visually-hidden">Freshy Bar - Выбери свой освежающий фреш</h1>
+            <!-- TODO: посмотреть работает ли индексация на SPA -->
             <h2 class="hero__title">Выбери свой <span class="text-red">освежающий</span> фреш</h2>
             <div class="hero__cups">
                 <div class="hero__cup hero__cup_pink">
