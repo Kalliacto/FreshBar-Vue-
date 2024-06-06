@@ -23,10 +23,10 @@ const customCoctail = {
     id: 0,
     title: 'Собери сам',
     image: img,
-    price: 236,
+    price: 100,
     size: '300мл',
 };
-// https://translated.turbopages.org/proxy_u/en-ru.ru.2b2222bf-666054a0-29dc0a19-74722d776562/https/stackoverflow.com/questions/75182167/vue3-pinia-how-to-make-reactive-a-value-from-the-store
+
 watchEffect(() => {
     if (store.goods.length) {
         ref(store.goods);

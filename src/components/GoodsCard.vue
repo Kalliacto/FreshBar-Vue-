@@ -13,20 +13,35 @@
                     <p class="coctail__size">{{ props.coctail.size }}</p>
                 </div>
             </div>
-            <button class="btn coctail__btn coctail__btn_make">Добавить</button>
+            <button class="btn coctail__btn coctail__btn_make" @click="handleClick">Добавить</button>
+            <!-- TODO: Если просто коктейль то модалка с названием и выбором лед и стакан -->
+            <!-- TODO: Если кастомный коктейль то модалка с формой выбором ингридиентов -->
+            <!-- Нужен компонент с формой, в которой будет в зависимости от приходящего пропса отрисовываться или только допы если просто коктейль или допы и ингридиенты если кастомный коктейль -->
         </article>
     </li>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
+import { useGoodsStore } from '../store/GoodsStore';
+
+const store = useGoodsStore();
 
 const props = defineProps({
     coctail: Object,
     image: String,
 });
 
-console.log(props.coctail);
+const handleClick = () => {
+    console.log(props.coctail.id);
+    if (props.coctail.id) {
+        store.openModal('Add');
+    } else {
+        store.openModal('Custom');
+    }
+};
+
+// TODO: функцию добавления в корзину
 </script>
 
 <style scoped>

@@ -3,7 +3,7 @@
         <div class="container header__container">
             <img class="header__logo" src="../assets/img/logo.svg" alt="Логотип Freshy Bar" id="logo" />
             <div class="header__btns">
-                <button class="header__btn-order">
+                <button class="header__btn-order" @click="handlerOpenCart">
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                             fill-rule="evenodd"
@@ -19,9 +19,15 @@
     </header>
 </template>
 
-<script>
-export default {
-    name: 'MyHeader',
+<script setup>
+import { useGoodsStore } from '../store/GoodsStore';
+
+const store = useGoodsStore();
+// TODO: на копку header__btn-order открываться модалка с корзиной
+// Компонет корзины сделать и отрисовать в мочалке
+// Должна быть форма с Фио и тел
+const handlerOpenCart = () => {
+    store.openModal('Cart');
 };
 </script>
 
