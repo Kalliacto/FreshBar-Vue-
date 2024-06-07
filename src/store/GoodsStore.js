@@ -8,6 +8,7 @@ export const useGoodsStore = defineStore('GoodsStore', {
         goods: [],
         isModalOpen: false,
         content: '',
+        currentCoctail: {},
     }),
     // actions
     actions: {
@@ -23,9 +24,12 @@ export const useGoodsStore = defineStore('GoodsStore', {
                 .then((res) => (this.goods = res))
                 .catch((error) => alert(`${error.name}: ${error.message}`));
         },
-        openModal(str) {
+        openModal(str, obj = false) {
             this.isModalOpen = true;
             this.content = str;
+            if (obj) {
+                this.currentCoctail = obj;
+            }
         },
         closeModal() {
             this.content = '';

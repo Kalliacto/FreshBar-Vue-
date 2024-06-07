@@ -23,7 +23,7 @@
 import { useGoodsStore } from '../store/GoodsStore';
 
 const store = useGoodsStore();
-// TODO: на копку header__btn-order открываться модалка с корзиной
+
 // Компонет корзины сделать и отрисовать в мочалке
 // Должна быть форма с Фио и тел
 const handlerOpenCart = () => {

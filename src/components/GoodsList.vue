@@ -2,6 +2,7 @@
     <section class="goods" id="goods">
         <div class="container goods__container">
             <h2 class="goods__title">Меню</h2>
+            <!-- Сделать лоадер -->
             <ul class="goods__list">
                 <goods-card :coctail="customCoctail" :image="customCoctail.image" />
                 <goods-card v-for="coctail in store.goods" :coctail="coctail" :key="coctail.id" />
@@ -12,12 +13,11 @@
 
 <script setup>
 import GoodsCard from '@/components/GoodsCard.vue';
-import { ref, watchEffect } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
 import { useGoodsStore } from '../store/GoodsStore';
 import img from '@/assets/img/make your own.jpg';
 
 const store = useGoodsStore();
-store.getGoods();
 
 const customCoctail = {
     id: 0,
@@ -26,6 +26,10 @@ const customCoctail = {
     price: 100,
     size: '300мл',
 };
+
+onMounted(() => {
+    store.getGoods();
+});
 
 watchEffect(() => {
     if (store.goods.length) {

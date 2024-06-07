@@ -14,9 +14,6 @@
                 </div>
             </div>
             <button class="btn coctail__btn coctail__btn_make" @click="handleClick">Добавить</button>
-            <!-- TODO: Если просто коктейль то модалка с названием и выбором лед и стакан -->
-            <!-- TODO: Если кастомный коктейль то модалка с формой выбором ингридиентов -->
-            <!-- Нужен компонент с формой, в которой будет в зависимости от приходящего пропса отрисовываться или только допы если просто коктейль или допы и ингридиенты если кастомный коктейль -->
         </article>
     </li>
 </template>
@@ -33,15 +30,12 @@ const props = defineProps({
 });
 
 const handleClick = () => {
-    console.log(props.coctail.id);
     if (props.coctail.id) {
-        store.openModal('Add');
+        store.openModal('Add', props.coctail);
     } else {
-        store.openModal('Custom');
+        store.openModal('Custom', props.coctail);
     }
 };
-
-// TODO: функцию добавления в корзину
 </script>
 
 <style scoped>
