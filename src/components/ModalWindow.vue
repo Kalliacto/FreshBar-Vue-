@@ -28,7 +28,6 @@ const store = useGoodsStore();
     overflow-y: auto;
 }
 .modal__content {
-    /* Разобраться что не так, почему  auto в данном случает центрирует только по оси Х*/
     margin: 25% auto;
     cursor: default;
     width: 100%;

@@ -9,6 +9,7 @@ export const useGoodsStore = defineStore('GoodsStore', {
         isModalOpen: false,
         content: '',
         currentCoctail: {},
+        cart: [],
     }),
     // actions
     actions: {
@@ -34,6 +35,36 @@ export const useGoodsStore = defineStore('GoodsStore', {
         closeModal() {
             this.content = '';
             this.isModalOpen = false;
+        },
+        addToCart(data) {
+            const checkCoctailInBasket = this.cart.find((e) => e.id === data.id);
+            if (checkCoctailInBasket) {
+                checkCoctailInBasket.count = checkCoctailInBasket.count + data.count;
+                checkCoctailInBasket.price = checkCoctailInBasket.price + data.price;
+            } else {
+                this.cart.push(data);
+            }
+            localStorage.setItem('basketFreshBar', JSON.stringify(this.cart));
+        },
+        removeCoctailFromCart(data) {
+            const checkCoctailInBasket = this.cart.find((e) => e.id === data.id);
+            if (checkCoctailInBasket) {
+                checkCoctailInBasket.count = checkCoctailInBasket.count - data.count;
+                if (checkCoctailInBasket.count === 0) {
+                    this.cart = this.cart.filter((e) => e.id !== data.id);
+                }
+            }
+            localStorage.setItem('basketFreshBar', JSON.stringify(this.cart));
+        },
+        deleteCoctailFromCart(data) {
+            this.cart = this.cart.filter((el) => el.id !== data.id);
+            localStorage.setItem('basketFreshBar', JSON.stringify(this.cart));
+        },
+        updateCart(data) {
+            this.cart = JSON.parse(data);
+        },
+        sendCart() {
+            // Сделать отправку корзины на сервер имитация
         },
     },
     getters: {},

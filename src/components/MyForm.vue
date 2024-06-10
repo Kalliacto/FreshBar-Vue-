@@ -1,6 +1,6 @@
 <template>
     <h3 class="make__title">{{ store.currentCoctail.title }}</h3>
-    <form @submit.prevent @change="calcTotalPrice">
+    <form @submit.prevent="sendForm" @change="calcTotalPrice">
         <fieldset v-if="store.content === 'Custom'" class="make__fieldset make__fieldset_ingridients">
             <legend class="make__legend">Ингридиенты:</legend>
             <my-input
@@ -67,6 +67,16 @@ const calcTotalPrice = (e) => {
             totalPrice.value -= +e.target.value;
         }
     }
+};
+
+const sendForm = () => {
+    store.addToCart({
+        id: store.currentCoctail.id,
+        coctail: store.currentCoctail.title,
+        price: totalPrice.value,
+        count: 1,
+    });
+    store.closeModal();
 };
 </script>
 

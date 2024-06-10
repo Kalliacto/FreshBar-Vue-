@@ -12,7 +12,6 @@
     </modal-window>
 </template>
 
-<!-- Надо в карточке коктейля подписаться на событие клика по карточке и по этому клику отправлять объект коклейля вверх чтобы передать в форму -->
 <script setup>
 import GoodsList from './components/GoodsList.vue';
 import HeroBlock from './components/HeroBlock.vue';
@@ -22,8 +21,15 @@ import ModalWindow from './components/ModalWindow.vue';
 import MyForm from './components/MyForm.vue';
 
 import { useGoodsStore } from './store/GoodsStore';
+import { onMounted } from 'vue';
 
 const store = useGoodsStore();
+
+onMounted(() => {
+    if (localStorage.getItem('basketFreshBar')) {
+        store.updateCart(localStorage.getItem('basketFreshBar'));
+    }
+});
 </script>
 
 <style>
