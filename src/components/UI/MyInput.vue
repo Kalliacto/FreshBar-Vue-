@@ -10,7 +10,7 @@
             :class="props.type === 'radio' ? 'radio__input' : 'checkbox__input'"
         />
         {{ props.label }}
-        <span class="make__upsale">(+{{ props.value }}&nbsp;p)</span>
+        <span class="make__upsale">(+{{ props.price }}&nbsp;p)</span>
     </label>
 </template>
 
@@ -22,8 +22,11 @@ const props = defineProps({
     checked: Boolean,
     label: String,
     name: String,
-    value: Number,
+    value: String,
+    price: Number,
 });
+
+// console.log(props.price);
 </script>
 
 <style scoped>

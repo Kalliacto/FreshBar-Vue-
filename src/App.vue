@@ -7,7 +7,7 @@
     <my-footer />
 
     <modal-window v-if="store.isModalOpen">
-        <div v-if="store.content === 'Cart'">Cart</div>
+        <cart-list v-if="store.content === 'Cart'" />
         <my-form v-if="store.content === 'Custom' || store.content === 'Add'" />
     </modal-window>
 </template>
@@ -19,17 +19,10 @@ import MyFooter from './components/MyFooter.vue';
 import MyHeader from './components/MyHeader.vue';
 import ModalWindow from './components/ModalWindow.vue';
 import MyForm from './components/MyForm.vue';
-
+import CartList from './components/CartList.vue';
 import { useGoodsStore } from './store/GoodsStore';
-import { onMounted } from 'vue';
 
 const store = useGoodsStore();
-
-onMounted(() => {
-    if (localStorage.getItem('basketFreshBar')) {
-        store.updateCart(localStorage.getItem('basketFreshBar'));
-    }
-});
 </script>
 
 <style>

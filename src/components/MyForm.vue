@@ -4,33 +4,47 @@
         <fieldset v-if="store.content === 'Custom'" class="make__fieldset make__fieldset_ingridients">
             <legend class="make__legend">Ингридиенты:</legend>
             <my-input
-                v-for="ingridient in customData"
-                :key="ingridient.name"
-                :label="ingridient.name"
-                :name="'ingridients'"
-                :value="ingridient.price"
+                v-for="ingridient in ingridients"
+                :key="ingridient"
+                :label="ingridient"
+                :name="ingridient"
+                :value="ingridient"
                 :type="'checkbox'"
+                :price="price[ingridient]"
             />
         </fieldset>
         <div class="make__wrap-add">
             <fieldset class="make__fieldset make__fieldset_topping">
                 <legend class="make__legend">Дополнительно:</legend>
-                <my-input :label="'Мята'" :name="'topping'" :value="50" :type="'checkbox'" />
-                <my-input :label="'Лёд'" :name="'topping'" :value="10" :type="'checkbox'" />
+                <my-input :label="'Мята'" :name="'Мята'" :value="'Мята'" :type="'checkbox'" :price="price['Мята']" />
+                <my-input :label="'Лёд'" :name="'Лёд'" :value="'Лёд'" :type="'checkbox'" :price="price['Лёд']" />
             </fieldset>
             <fieldset class="make__fieldset make__fieldset_cup">
                 <legend class="make__legend">Стакан:</legend>
-                <my-input :label="'Пластиковый'" :name="'cup'" :value="0" :type="'radio'" :checked="true" />
-                <my-input :label="'Биоразлагаемый'" :name="'cup'" :value="20" :type="'radio'" />
+                <my-input
+                    :label="'Пластиковый'"
+                    :name="'cup'"
+                    :value="'Пластиковый'"
+                    :type="'radio'"
+                    :checked="true"
+                    :price="price['Пластиковый']"
+                />
+                <my-input
+                    :label="'Биоразлагаемый'"
+                    :name="'cup'"
+                    :value="'Биоразлагаемый'"
+                    :type="'radio'"
+                    :price="price['Биоразлагаемый']"
+                />
             </fieldset>
         </div>
         <div class="make__footer">
             <button class="btn make__add-btn" type="submit">Добавить</button>
             <div class="make__total">
                 <input class="make__input-start-price" type="hidden" />
-                <input class="make__input-price" type="hidden" name="price" />
+                <input class="make__input-price" type="hidden" name="price" :value="totalPrice" />
                 <p class="make__total-price text-red">{{ totalPrice }} p</p>
-                <input class="make__input-size" type="hidden" name="size" />
+                <input class="make__input-size" type="hidden" name="size" :value="store.currentCoctail.size" />
                 <p class="make__total-size">{{ store.currentCoctail.size }}</p>
             </div>
         </div>
@@ -43,39 +57,61 @@ import { useGoodsStore } from '../store/GoodsStore';
 const store = useGoodsStore();
 import { ref } from 'vue';
 
-const customData = [
-    { name: 'Клубника', price: 50 },
-    { name: 'Банан', price: 40 },
-    { name: 'Манго', price: 80 },
-    { name: 'Киви', price: 70 },
-    { name: 'Маракуйя', price: 85 },
-    { name: 'Яблоко', price: 45 },
-];
+const price = {
+    Клубника: 50,
+    Банан: 40,
+    Манго: 80,
+    Киви: 70,
+    Маракуйя: 85,
+    Яблоко: 45,
+    Мята: 50,
+    Лёд: 10,
+    Пластиковый: 0,
+    Биоразлагаемый: 20,
+};
+const ingridients = ['Клубника', 'Банан', 'Манго', 'Киви', 'Маракуйя', 'Яблоко'];
 let totalPrice = ref(+store.currentCoctail.price);
 
 const calcTotalPrice = (e) => {
+    let targetValue = Number(price[e.target.value]);
     if (e.target.type === 'radio') {
-        if (e.target.value === '20') {
-            totalPrice.value += Number(e.target.value);
-        } else if (e.target.value === '0') {
-            totalPrice.value = Number(totalPrice.value) - 20;
+        if (targetValue === 20) {
+            totalPrice.value += targetValue;
+        } else if (targetValue === 0) {
+            totalPrice.value -= 20;
         }
     } else {
         if (e.target.checked) {
-            totalPrice.value += +e.target.value;
+            totalPrice.value += targetValue;
         } else {
-            totalPrice.value -= +e.target.value;
+            totalPrice.value -= targetValue;
         }
     }
 };
 
-const sendForm = () => {
-    store.addToCart({
+const sendForm = (e) => {
+    const data = Object.fromEntries(new FormData(e.target));
+    // Пересобираю {} в тот вид, который нужен мне
+    const obj = {
         id: store.currentCoctail.id,
-        coctail: store.currentCoctail.title,
-        price: totalPrice.value,
-        count: 1,
-    });
+        title: store.currentCoctail.title,
+        topping: [],
+        ingridients: [],
+        cup: data.cup,
+        price: data.price,
+        image: store.currentCoctail.image,
+        size: data.size,
+    };
+
+    for (const key in data) {
+        if (key === 'Мята' || key === 'Лёд') {
+            obj['topping'].push(key);
+        } else if (ingridients.includes(key)) {
+            obj['ingridients'].push(key);
+        }
+    }
+
+    store.addToCart(obj);
     store.closeModal();
 };
 </script>

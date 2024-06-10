@@ -35,6 +35,9 @@ watchEffect(() => {
     if (store.goods.length) {
         ref(store.goods);
     }
+    if (store.goods.length && localStorage.getItem('basketFreshBar')) {
+        store.updateCart(localStorage.getItem('basketFreshBar'));
+    }
 });
 </script>
 
