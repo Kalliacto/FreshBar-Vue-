@@ -11,13 +11,28 @@
                 :value="ingridient"
                 :type="'checkbox'"
                 :price="price[ingridient]"
+                :class="'checkbox__input'"
             />
         </fieldset>
         <div class="make__wrap-add">
             <fieldset class="make__fieldset make__fieldset_topping">
                 <legend class="make__legend">Дополнительно:</legend>
-                <my-input :label="'Мята'" :name="'Мята'" :value="'Мята'" :type="'checkbox'" :price="price['Мята']" />
-                <my-input :label="'Лёд'" :name="'Лёд'" :value="'Лёд'" :type="'checkbox'" :price="price['Лёд']" />
+                <my-input
+                    :class="'checkbox__input'"
+                    :label="'Мята'"
+                    :name="'Мята'"
+                    :value="'Мята'"
+                    :type="'checkbox'"
+                    :price="price['Мята']"
+                />
+                <my-input
+                    :class="'checkbox__input'"
+                    :label="'Лёд'"
+                    :name="'Лёд'"
+                    :value="'Лёд'"
+                    :type="'checkbox'"
+                    :price="price['Лёд']"
+                />
             </fieldset>
             <fieldset class="make__fieldset make__fieldset_cup">
                 <legend class="make__legend">Стакан:</legend>
@@ -28,6 +43,7 @@
                     :type="'radio'"
                     :checked="true"
                     :price="price['Пластиковый']"
+                    :class="'radio__input'"
                 />
                 <my-input
                     :label="'Биоразлагаемый'"
@@ -35,6 +51,7 @@
                     :value="'Биоразлагаемый'"
                     :type="'radio'"
                     :price="price['Биоразлагаемый']"
+                    :class="'radio__input'"
                 />
             </fieldset>
         </div>
@@ -98,9 +115,10 @@ const sendForm = (e) => {
         topping: [],
         ingridients: [],
         cup: data.cup,
-        price: data.price,
+        price: +data.price,
         image: store.currentCoctail.image,
         size: data.size,
+        count: 1,
     };
 
     for (const key in data) {

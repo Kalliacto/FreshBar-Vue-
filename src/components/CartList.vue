@@ -1,7 +1,7 @@
 <template>
     <div class="order">
         <h2 class="order__title text__gradient_min">
-            Корзина<sup class="text-red order__count">({{ store.cart.length }})</sup>
+            Корзина<sup class="text-red order__count" v-if="store.cart.length">({{ store.cart.length }})</sup>
         </h2>
         <ul class="order__list" v-if="store.cart.length">
             <cart-item v-for="coctail in store.cart" :coctailItem="coctail" :key="coctail.id" />
@@ -28,9 +28,16 @@
 <script setup>
 import { useGoodsStore } from '../store/GoodsStore';
 import CartItem from '../components/CartItem.vue';
+import { ref, watchEffect } from 'vue';
 const store = useGoodsStore();
 
-let totalPrice = store.cart.reduce((acc, current) => acc + current.price, 0);
+let totalPrice = ref(store.cart.reduce((acc, current) => acc + current.price, 0));
+
+watchEffect(() => {
+    if (store.cart) {
+        totalPrice.value = store.cart.reduce((acc, current) => acc + current.price, 0);
+    }
+}, store.cart);
 </script>
 
 <style scoped>

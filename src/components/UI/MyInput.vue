@@ -7,7 +7,7 @@
             :label="props.label"
             :checked="props.checked"
             class="input"
-            :class="props.type === 'radio' ? 'radio__input' : 'checkbox__input'"
+            :class="props.class"
         />
         {{ props.label }}
         <span class="make__upsale">(+{{ props.price }}&nbsp;p)</span>
@@ -24,9 +24,8 @@ const props = defineProps({
     name: String,
     value: String,
     price: Number,
+    class: String,
 });
-
-// console.log(props.price);
 </script>
 
 <style scoped>

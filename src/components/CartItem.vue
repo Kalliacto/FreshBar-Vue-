@@ -2,26 +2,44 @@
     <li class="order__item">
         <!-- <img class="order__img" src="./img/cups/berries.jpg" alt="название коктейля"> -->
         <div class="order__info">
-            <h3 class="order__name">{{ props.coctailItem.title }}</h3>
+            <h3 class="order__name">
+                {{ props.coctailItem.title
+                }}<sup class="text-red" v-if="props.coctailItem.count">({{ props.coctailItem.count }})</sup>
+            </h3>
             <ul class="order__topping-list">
                 <li class="order__topping-item">{{ props.coctailItem.size }}</li>
-                <li class="order__topping-item">sdsd</li>
-                <li class="order__topping-item">dsfdsf</li>
-                <li class="order__topping-item">sdsd</li>
+                <li class="order__topping-item">{{ props.coctailItem.cup }}</li>
+                <li class="order__topping-item" v-for="topping in props.coctailItem.topping" :key="topping">
+                    {{ topping }}
+                </li>
             </ul>
         </div>
-        <button class="order__item-close" aria-label="Удалить коктейль из корзины"></button>
+        <!-- <button
+            class="order__item-close"
+            aria-label="Удалить коктейль из корзины"
+            @click="store.deleteCoctailFromCart(props.coctailItem)"
+        ></button> -->
+        <button
+            class="order__item-close"
+            aria-label="Удалить 1 "
+            @click="store.decrementCoctailFromCart(props.coctailItem)"
+        ></button>
+
         <p class="order__item-price">{{ props.coctailItem.price }}&nbsp;P</p>
+        <!-- TODO: Сделать компонент котролера добавления или удаления коктейля -->
     </li>
 </template>
 
 <script setup>
 import { defineProps } from 'vue';
+import { useGoodsStore } from '../store/GoodsStore';
+const store = useGoodsStore();
 
 const props = defineProps({
     coctailItem: Object,
 });
-console.log(props.coctailItem);
+
+// const handleClick = () => {};
 </script>
 
 <style scoped>
