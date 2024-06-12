@@ -66,7 +66,14 @@ export const useGoodsStore = defineStore('GoodsStore', {
 
             localStorage.setItem('basketFreshBar', JSON.stringify(this.cart));
         },
-        // incrementCoctailFromCart(data) {},
+        incrementCoctailFromCart(data) {
+            const coctailInCart = this.cart.find((el) => el === data);
+
+            coctailInCart.price = coctailInCart.price + coctailInCart.price / coctailInCart.count;
+            coctailInCart.count = coctailInCart.count + 1;
+
+            localStorage.setItem('basketFreshBar', JSON.stringify(this.cart));
+        },
         decrementCoctailFromCart(data) {
             const coctailInCart = this.cart.find((el) => el === data);
 

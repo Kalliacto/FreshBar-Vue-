@@ -1,6 +1,6 @@
 <template>
     <li class="order__item">
-        <!-- <img class="order__img" src="./img/cups/berries.jpg" alt="название коктейля"> -->
+        <img class="order__img" :src="coctailImage" alt="название коктейля" />
         <div class="order__info">
             <h3 class="order__name">
                 {{ props.coctailItem.title
@@ -14,32 +14,30 @@
                 </li>
             </ul>
         </div>
-        <!-- <button
+        <controller-component class="order__control" :coctailItem="props.coctailItem" />
+        <button
             class="order__item-close"
             aria-label="Удалить коктейль из корзины"
             @click="store.deleteCoctailFromCart(props.coctailItem)"
-        ></button> -->
-        <button
-            class="order__item-close"
-            aria-label="Удалить 1 "
-            @click="store.decrementCoctailFromCart(props.coctailItem)"
         ></button>
-
         <p class="order__item-price">{{ props.coctailItem.price }}&nbsp;P</p>
-        <!-- TODO: Сделать компонент котролера добавления или удаления коктейля -->
     </li>
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { computed, defineProps } from 'vue';
 import { useGoodsStore } from '../store/GoodsStore';
+import ControllerComponent from './UI/ControllerComponent.vue';
+import img from '@/assets/img/make your own.jpg';
 const store = useGoodsStore();
 
 const props = defineProps({
     coctailItem: Object,
 });
 
-// const handleClick = () => {};
+const coctailImage = computed(() =>
+    props.coctailItem.id !== 0 ? 'https://puzzled-rust-nickel.glitch.me/' + props.coctailItem.image : img
+);
 </script>
 
 <style scoped>
@@ -47,11 +45,11 @@ const props = defineProps({
     border-top: 1px solid white;
     padding: 16px 0;
     display: grid;
-    grid-template-columns: 70px 1fr min-content;
+    grid-template-columns: 70px 1fr min-content min-content;
     gap: 12px;
     grid-template-areas:
-        'image info delete'
-        'image info price';
+        'image info contr delete'
+        'image info contr price';
 }
 .order__item:last-child {
     border-bottom: 1px solid white;
@@ -59,6 +57,9 @@ const props = defineProps({
 .order__img {
     grid-area: image;
     width: 100%;
+}
+.order__control {
+    grid-area: contr;
 }
 .order__info {
     grid-area: info;

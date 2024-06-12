@@ -1,9 +1,9 @@
 <template>
-    <div class="order">
+    <div class="order" v-if="store.cart.length">
         <h2 class="order__title text__gradient_min">
-            Корзина<sup class="text-red order__count" v-if="store.cart.length">({{ store.cart.length }})</sup>
+            Корзина<sup class="text-red order__count">({{ allCountCoctail }})</sup>
         </h2>
-        <ul class="order__list" v-if="store.cart.length">
+        <ul class="order__list">
             <cart-item v-for="coctail in store.cart" :coctailItem="coctail" :key="coctail.id" />
         </ul>
 
@@ -23,21 +23,22 @@
             <!-- Валидация на ончейнже -->
         </form>
     </div>
+    <div class="order" v-else>
+        <h2 class="order__title text__gradient_min">Корзина</h2>
+        <p>Очень жаль, что Ваша корзина пуста {{ '=(' }}</p>
+        <p>Пройти за <a class="text-red" href="#goods" @click="store.closeModal">покупками</a></p>
+        <!-- TODO: Стилизовать до конца блок отсутствия товаров в корзине -->
+    </div>
 </template>
 
 <script setup>
 import { useGoodsStore } from '../store/GoodsStore';
 import CartItem from '../components/CartItem.vue';
-import { ref, watchEffect } from 'vue';
+import { computed } from 'vue';
 const store = useGoodsStore();
 
-let totalPrice = ref(store.cart.reduce((acc, current) => acc + current.price, 0));
-
-watchEffect(() => {
-    if (store.cart) {
-        totalPrice.value = store.cart.reduce((acc, current) => acc + current.price, 0);
-    }
-}, store.cart);
+const allCountCoctail = computed(() => store.cart.reduce((acc, current) => acc + current.count, 0));
+const totalPrice = computed(() => store.cart.reduce((acc, current) => acc + current.price, 0));
 </script>
 
 <style scoped>

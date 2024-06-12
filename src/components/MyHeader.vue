@@ -12,6 +12,7 @@
                             fill="currentColor"
                         />
                     </svg>
+                    <sup class="text-red text-red_sup" v-if="allCountCoctail">({{ allCountCoctail }})</sup>
                 </button>
                 <a href="#goods" class="btn header__btn">Заказать</a>
             </div>
@@ -20,11 +21,13 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useGoodsStore } from '../store/GoodsStore';
 
 const store = useGoodsStore();
 
-// Компонет корзины сделать и отрисовать в мочалке
+const allCountCoctail = computed(() => store.cart.reduce((acc, current) => acc + current.count, 0));
+
 // Должна быть форма с Фио и тел
 const handlerOpenCart = () => {
     store.openModal('Cart');
@@ -49,12 +52,19 @@ const handlerOpenCart = () => {
     max-width: 160px;
 }
 .header__btn-order {
+    position: relative;
     line-height: 1;
     width: 24px;
     height: 24px;
 }
 .header__btn {
     display: block;
+}
+
+.text-red_sup {
+    position: absolute;
+    right: -10px;
+    top: 3px;
 }
 
 @media (max-width: 940px) {
