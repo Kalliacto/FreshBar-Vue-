@@ -2,8 +2,8 @@
     <section class="goods" id="goods">
         <div class="container goods__container">
             <h2 class="goods__title">Меню</h2>
-            <!-- Сделать лоадер -->
-            <ul class="goods__list">
+            <my-loading v-if="store.isLoading" />
+            <ul class="goods__list" v-else>
                 <goods-card :coctail="customCoctail" :image="customCoctail.image" />
                 <goods-card v-for="coctail in store.goods" :coctail="coctail" :key="coctail.id" />
             </ul>
@@ -13,6 +13,7 @@
 
 <script setup>
 import GoodsCard from '@/components/GoodsCard.vue';
+import MyLoading from '@/components/MyLoading.vue';
 import { onMounted, ref, watchEffect } from 'vue';
 import { useGoodsStore } from '../store/GoodsStore';
 import img from '@/assets/img/make your own.jpg';

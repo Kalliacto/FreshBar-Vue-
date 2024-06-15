@@ -5,6 +5,7 @@ const API_URL = 'https://puzzled-rust-nickel.glitch.me/';
 export const useGoodsStore = defineStore('GoodsStore', {
     // state
     state: () => ({
+        isLoading: true,
         goods: [],
         isModalOpen: false,
         content: '',
@@ -22,7 +23,10 @@ export const useGoodsStore = defineStore('GoodsStore', {
                         throw { name: 'ErrorGetGoods', message: ` Ошибка ${res.status} ` };
                     }
                 })
-                .then((res) => (this.goods = res))
+                .then((res) => {
+                    this.isLoading = false;
+                    this.goods = res;
+                })
                 .catch((error) => alert(`${error.name}: ${error.message}`));
         },
         openModal(str, obj = false) {
