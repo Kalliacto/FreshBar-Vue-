@@ -12,14 +12,14 @@
             <p class="order__total-price text-red">{{ totalPrice }}</p>
         </div>
 
-        <form class="order__form">
+        <form class="order__form" @submit.prevent="sendOrder">
             <label class="order__label">
                 <input class="order__input" type="text" name="name" required placeholder="Имя" />
             </label>
             <label class="order__label">
                 <input class="order__input" type="text" name="phone" required placeholder="Телефон" />
             </label>
-            <button class="order__submit btn">Заказать</button>
+            <button class="order__submit btn" type="submit">Заказать</button>
             <!-- Валидация на ончейнже -->
         </form>
     </div>
@@ -39,6 +39,11 @@ const store = useGoodsStore();
 
 const allCountCoctail = computed(() => store.cart.reduce((acc, current) => acc + current.count, 0));
 const totalPrice = computed(() => store.cart.reduce((acc, current) => acc + current.price, 0));
+
+const sendOrder = (e) => {
+    const data = Object.fromEntries(new FormData(e.target));
+    store.sendCart(data);
+};
 </script>
 
 <style scoped>

@@ -97,8 +97,19 @@ export const useGoodsStore = defineStore('GoodsStore', {
         updateCart(data) {
             this.cart = JSON.parse(data);
         },
-        sendCart() {
-            // Сделать отправку корзины на сервер имитация
+        sendCart(data) {
+            const orderInformation = { ...data, order: this.cart };
+            fetch('https://reqres.in/api/users', {
+                method: 'post',
+                body: JSON.stringify(orderInformation),
+            })
+                .then(alert('Ваш заказ успешно принят!'))
+                .then(() => {
+                    this.cart = [];
+                    localStorage.removeItem('basketFreshBar');
+                    this.isModalOpen = false;
+                })
+                .catch((err) => console.log(err));
         },
     },
     getters: {},
