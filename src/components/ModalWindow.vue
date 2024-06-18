@@ -28,7 +28,7 @@ const store = useGoodsStore();
     overflow-y: auto;
 }
 .modal__content {
-    margin: 25% auto;
+    margin: 10% auto;
     cursor: default;
     width: 100%;
 }

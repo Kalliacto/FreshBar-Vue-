@@ -9,25 +9,40 @@
 
         <div class="order__total">
             <p class="order__total-title">Итого:</p>
-            <p class="order__total-price text-red">{{ totalPrice }}</p>
+            <p class="order__total-price text-red">{{ totalPrice }}&nbsp;&#x20bd;</p>
         </div>
 
         <form class="order__form" @submit.prevent="sendOrder">
-            <label class="order__label">
+            <div class="order__form_item">
+                <label class="order__label" for="name">Имя </label>
                 <input class="order__input" type="text" name="name" required placeholder="Имя" />
-            </label>
-            <label class="order__label">
+            </div>
+            <div class="order__form_item">
+                <label class="order__label" for="phone">Телефон </label>
                 <input
                     class="order__input"
-                    type="number"
+                    type="tel"
                     name="phone"
                     required
                     placeholder="Телефон"
-                    @input="updatePhone"
+                    @change="updatePhone"
                     :value="phone"
                 />
-                <p v-if="isValidPhone" class="order__info">Номер введен корректно!</p>
-            </label>
+                <span v-if="hasErrorTel" class="order__info">Номер введен некорректно!</span>
+            </div>
+            <div class="order__form_item">
+                <label class="order__label" for="email">Ваш E-mail </label>
+                <input
+                    class="order__input"
+                    type="e-mail"
+                    name="email"
+                    :value="email"
+                    @change="updateEmail"
+                    required
+                    placeholder="E-mail"
+                />
+                <span v-if="hasErrorEmail" class="order__info">E-mail введен некорректно!</span>
+            </div>
             <button class="order__submit btn" type="submit">Заказать</button>
         </form>
     </div>
@@ -42,21 +57,29 @@
 import { useGoodsStore } from '../store/GoodsStore';
 import CartItem from '../components/CartItem.vue';
 import { computed } from 'vue';
+import { ref } from 'vue';
+import { checkPhone, checkEmail } from '@/utils/utils.js';
 const store = useGoodsStore();
-import { ref, watch } from 'vue';
 
 const allCountCoctail = computed(() => store.cart.reduce((acc, current) => acc + current.count, 0));
 const totalPrice = computed(() => store.cart.reduce((acc, current) => acc + current.price, 0));
 const phone = ref('');
-const isValidPhone = ref(false);
+const email = ref('');
+const hasErrorTel = ref(false);
+const hasErrorEmail = ref(false);
 
-watch(phone, (newEmail) => {
-    const regex = /^(\+\d{1,3}[- ]?)?\d{10}$/;
-    isValidPhone.value = regex.test(newEmail);
-});
+// watch(phone, (phone) => {
+//     isValidPhone.value = checkPhone(phone);
+// });
 
 const updatePhone = (e) => {
     phone.value = e.target.value;
+    hasErrorTel.value = !checkPhone(e.target.value);
+};
+
+const updateEmail = (e) => {
+    email.value = e.target.value;
+    hasErrorEmail.value = !checkEmail(e.target.value);
 };
 
 const sendOrder = (e) => {
@@ -77,16 +100,22 @@ const sendOrder = (e) => {
 
 .order__total {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+    gap: 20px;
 }
 .order__total-title {
     font-weight: 600;
 }
 .order__form {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 20px;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+}
+.order__form_item {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .order__label {
     width: 100%;
@@ -102,12 +131,10 @@ const sendOrder = (e) => {
     outline: none;
 }
 .order__submit {
-    justify-self: end;
-    grid-column: 2/3;
+    width: fit-content;
+    align-self: flex-end;
 }
 .order__info {
-    position: absolute;
-    margin-top: 5px;
-    margin-left: 5px;
+    color: var(--main-red);
 }
 </style>
