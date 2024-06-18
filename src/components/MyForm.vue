@@ -179,8 +179,11 @@ const sendForm = (e) => {
     .make__title {
         font-size: 28px;
     }
+
+    .make__fieldset_ingridients,
     .make__wrap-add,
     .make__footer {
+        display: flex;
         flex-direction: column;
         gap: 20px;
     }
