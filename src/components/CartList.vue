@@ -68,10 +68,6 @@ const email = ref('');
 const hasErrorTel = ref(false);
 const hasErrorEmail = ref(false);
 
-// watch(phone, (phone) => {
-//     isValidPhone.value = checkPhone(phone);
-// });
-
 const updatePhone = (e) => {
     phone.value = e.target.value;
     hasErrorTel.value = !checkPhone(e.target.value);
@@ -136,5 +132,11 @@ const sendOrder = (e) => {
 }
 .order__info {
     color: var(--main-red);
+}
+
+@media (max-width: 520px) {
+    .order__title {
+        font-size: 28px;
+    }
 }
 </style>

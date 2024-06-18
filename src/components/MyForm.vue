@@ -71,22 +71,10 @@
 <script setup>
 import MyInput from './UI/MyInput.vue';
 import { useGoodsStore } from '../store/GoodsStore';
-const store = useGoodsStore();
 import { ref } from 'vue';
+import { price, ingridients } from '@/utils/utils.js';
+const store = useGoodsStore();
 
-const price = {
-    Клубника: 50,
-    Банан: 40,
-    Манго: 80,
-    Киви: 70,
-    Маракуйя: 85,
-    Яблоко: 45,
-    Мята: 50,
-    Лёд: 10,
-    Пластиковый: 0,
-    Биоразлагаемый: 20,
-};
-const ingridients = ['Клубника', 'Банан', 'Манго', 'Киви', 'Маракуйя', 'Яблоко'];
 let totalPrice = ref(+store.currentCoctail.price);
 
 const calcTotalPrice = (e) => {
@@ -185,5 +173,19 @@ const sendForm = (e) => {
 }
 .make__total-price {
     font-weight: 600;
+}
+
+@media (max-width: 520px) {
+    .make__title {
+        font-size: 28px;
+    }
+    .make__wrap-add,
+    .make__footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .make__footer {
+        flex-direction: column-reverse;
+    }
 }
 </style>

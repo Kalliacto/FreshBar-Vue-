@@ -88,4 +88,13 @@ const coctailImage = computed(() =>
     justify-self: end;
     align-self: end;
 }
+
+@media (max-width: 520px) {
+    .order__item {
+        grid-template-columns: 1.5fr 0.5fr 0.5fr;
+        grid-template-areas:
+            'image contr delete'
+            'info  contr price';
+    }
+}
 </style>
